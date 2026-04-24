@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kodo - A Lightweight IDE</title>
+  <link rel="icon" href="https://raw.githubusercontent.com/KerbalMissile/Kodo/main/kodo_logo.png" type="image/png" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap');
+
+    :root {
+      --bg:       #1a1a1a;
+      --bg2:      #222222;
+      --bg3:      #2a2a2a;
+      --border:   #333333;
+      --accent:   #8C00FF;
+      --accent2:  #6b00c4;
+      --text:     #e8e8e8;
+      --muted:    #888888;
+      --code-bg:  #141414;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 56px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-logo img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      color: var(--muted);
+      transition: color 0.15s;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .version-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      padding: 3px 10px;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+    }
+
+    /* HERO */
+    .hero {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 100px 40px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .hero-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 7vw, 72px);
+      font-weight: 600;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      color: var(--text);
+    }
+
+    .hero h1 span {
+      color: var(--accent);
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.7;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover { background: var(--accent2); }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* DIVIDER */
+    .divider {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 40px;
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
+    /* FEATURES */
+    .section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 80px 40px;
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .section h2 {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -1px;
+      margin-bottom: 48px;
+      color: var(--text);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .feature {
+      background: var(--bg);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: background 0.15s;
+    }
+
+    .feature:hover { background: var(--bg2); }
+
+    .feature-icon {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .feature h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .feature p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* EXTENSIONS */
+    .ext-section {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ext-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 80px 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .ext-inner h2 {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+    }
+
+    .ext-inner p {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      padding: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      color: #ccc;
+      overflow-x: auto;
+    }
+
+    .code-block .c-key  { color: #8C00FF; }
+    .code-block .c-str  { color: #a8d8a8; }
+    .code-block .c-val  { color: #f0c070; }
+    .code-block .c-com  { color: #555; }
+
+    /* INSTALL */
+    .install-strip {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 80px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .install-strip h2 {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--border);
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      transition: background 0.15s;
+    }
+
+    .step:last-child { border-bottom: none; }
+    .step:hover { background: var(--bg2); }
+
+    .step-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      min-width: 24px;
+      margin-top: 2px;
+    }
+
+    .step-text strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .step-text span {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .footer-left img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+      opacity: 0.6;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      color: var(--muted);
+      transition: color 0.15s;
+    }
+
+    .footer-links a:hover { color: var(--text); }
+
+    /* FADE IN */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 0.5s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in:nth-child(1) { animation-delay: 0.05s; }
+    .fade-in:nth-child(2) { animation-delay: 0.12s; }
+    .fade-in:nth-child(3) { animation-delay: 0.19s; }
+    .fade-in:nth-child(4) { animation-delay: 0.26s; }
+    .fade-in:nth-child(5) { animation-delay: 0.33s; }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .hero, .section, .install-strip { padding-left: 20px; padding-right: 20px; }
+      .ext-inner { grid-template-columns: 1fr; padding: 48px 20px; }
+      footer { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">
+      <img src="https://raw.githubusercontent.com/KerbalMissile/Kodo/main/kodo_logo.png" alt="Kodo logo" />
+      Kodo
+    </div>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#extensions">Extensions</a></li>
+      <li><a href="#install">Install</a></li>
+      <li><a href="https://github.com/KerbalMissile/Kodo" target="_blank">GitHub</a></li>
+    </ul>
+    <span class="version-badge" id="version-badge">loading...</span>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-tag fade-in">Open Source IDE</p>
+    <h1 class="fade-in">Code fast.<br>Stay <span>light.</span></h1>
+    <p class="fade-in">Kodo is a fast, lightweight IDE built by KerbalMissile and SS-YYC. Simple setup, syntax highlighting via extensions, and a clean interface that gets out of your way.</p>
+    <div class="hero-buttons fade-in">
+      <a class="btn btn-primary" href="https://github.com/KerbalMissile/Kodo/releases/latest" target="_blank">
+        Download
+      </a>
+      <a class="btn btn-secondary" href="https://github.com/KerbalMissile/Kodo" target="_blank">
+        View on GitHub
+      </a>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- FEATURES -->
+  <section class="section" id="features">
+    <p class="section-label">What you get</p>
+    <h2>Built to stay out of your way</h2>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon">//</div>
+        <h3>Syntax Highlighting</h3>
+        <p>Highlighting driven entirely by .kox extension files. No hardcoded languages, add support for anything.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">[]</div>
+        <h3>Extension System</h3>
+        <p>Drop a .kox file in your Extensions folder and Kodo picks it up. No restart, no config wizard.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">&lt;&gt;</div>
+        <h3>Lightweight</h3>
+        <p>Single .exe, self-contained. No installers required, no bloat. Runs on any Windows x64 machine.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">&#x25A1;</div>
+        <h3>Clean UI</h3>
+        <p>Dark theme, file tree, tab management. Everything you need and nothing you don't.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">&#x2318;</div>
+        <h3>Quick Compiler Setup</h3>
+        <p>Point Kodo at your compiler and run. Designed to be wired up in minutes, not hours.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">~</div>
+        <h3>Open Source</h3>
+        <p>Licensed under the Kodo Public License v1.0. Read it, fork it, contribute to it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXTENSIONS -->
+  <div class="ext-section" id="extensions">
+    <div class="ext-inner">
+      <div>
+        <p class="section-label">Extensions</p>
+        <h2>Highlighting that follows the file</h2>
+        <p>Kodo matches the file extension against your installed .kox extensions at open time. If you save an untitled file to a new path, highlighting kicks in automatically. No manual mode switching.</p>
+        <a class="btn btn-secondary" href="https://github.com/KerbalMissile/Kodo/tree/main/Official_Extensions" target="_blank">Browse official extensions</a>
+      </div>
+      <div class="code-block">
+<span class="c-com">// manifest.json inside a .kox file</span>
+{
+  <span class="c-key">"name"</span>: <span class="c-str">"C#"</span>,
+  <span class="c-key">"extensions"</span>: [
+    <span class="c-str">".cs"</span>, <span class="c-str">".csx"</span>
+  ],
+  <span class="c-key">"version"</span>: <span class="c-val">"1.0.0"</span>
+}
+      </div>
+    </div>
+  </div>
+
+  <!-- INSTALL -->
+  <section class="install-strip" id="install">
+    <p class="section-label">Get started</p>
+    <h2>Up and running in two minutes</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">01</span>
+        <div class="step-text">
+          <strong>Download the installer</strong>
+          <span>Grab the latest release from the GitHub releases page. Windows x64 only.</span>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <div class="step-text">
+          <strong>Run the installer</strong>
+          <span>Run it as administrator when prompted. Kodo installs to Program Files by default.</span>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <div class="step-text">
+          <strong>Drop in extensions</strong>
+          <span>Place .kox extension files in your Extensions folder to add language support.</span>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">04</span>
+        <div class="step-text">
+          <strong>Open a folder and start coding</strong>
+          <span>Use the folder icon in the sidebar to open a project. That's it.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">
+      <img src="https://raw.githubusercontent.com/KerbalMissile/Kodo/main/kodo_logo.png" alt="" />
+      Kodo by KerbalMissile &amp; SS-YYC
+    </div>
+    <ul class="footer-links">
+      <li><a href="https://github.com/KerbalMissile/Kodo" target="_blank">GitHub</a></li>
+      <li><a href="https://github.com/KerbalMissile/Kodo/releases" target="_blank">Releases</a></li>
+      <li><a href="https://github.com/KerbalMissile/Kodo/blob/main/LICENSE.md" target="_blank">License</a></li>
+      <li><a href="https://github.com/KerbalMissile/Kodo/issues" target="_blank">Issues</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    fetch('https://api.github.com/repos/KerbalMissile/Kodo/releases')
+      .then(r => r.json())
+      .then(data => {
+        const badge = document.getElementById('version-badge');
+        const release = Array.isArray(data) && data.length > 0 ? data[0] : null;
+        if (release && release.tag_name) {
+          badge.textContent = release.tag_name;
+          badge.style.cursor = 'pointer';
+          badge.onclick = () => window.open(release.html_url, '_blank');
+        } else {
+          badge.textContent = 'pre-release';
+          badge.style.cursor = 'pointer';
+          badge.onclick = () => window.open('https://github.com/KerbalMissile/Kodo/releases', '_blank');
+        }
+      })
+      .catch(() => {
+        const badge = document.getElementById('version-badge');
+        badge.textContent = 'pre-release';
+        badge.style.cursor = 'pointer';
+        badge.onclick = () => window.open('https://github.com/KerbalMissile/Kodo/releases', '_blank');
+      });
+  </script>
+
+</body>
+</html>
