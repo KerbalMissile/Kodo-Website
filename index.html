@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kodo | Lightweight IDE</title>
-  <link rel="icon" href="https://raw.githubusercontent.com/KerbalMissile/Kodo/main/kodo_logo.png" type="image/png" />
+  <link rel="icon" href="https://raw.githubusercontent.com/Kodo-IDE/Kodo/main/kodo_logo.png" type="image/png" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap');
 
@@ -516,7 +516,7 @@
   <!-- NAV -->
   <nav>
     <div class="nav-logo">
-      <img src="https://raw.githubusercontent.com/KerbalMissile/Kodo/main/kodo_logo.png" alt="Kodo logo" />
+      <img src="https://raw.githubusercontent.com/Kodo-IDE/Kodo/main/kodo_logo.png" alt="Kodo logo" />
       Kodo
     </div>
     <ul class="nav-links">
@@ -524,7 +524,7 @@
       <li><a href="#screenshots">Screenshots</a></li>
       <li><a href="#extensions">Extensions</a></li>
       <li><a href="#install">Install</a></li>
-      <li><a href="https://github.com/KerbalMissile/Kodo" target="_blank">GitHub</a></li>
+      <li><a href="https://github.com/Kodo-IDE/Kodo" target="_blank">GitHub</a></li>
     </ul>
     <span class="version-badge" id="version-badge">loading...</span>
   </nav>
@@ -535,10 +535,10 @@
     <h1 class="fade-in">Code fast.<br>Stay <span>light.</span></h1>
     <p class="fade-in">Kodo is a fast, lightweight code editor built by KerbalMissile and SS-YYC. Open a file or folder, install language support and themes from the marketplace, and keep moving with tabs, autosave, recent files, and a built-in terminal.</p>
     <div class="hero-buttons fade-in">
-      <a class="btn btn-primary" href="https://github.com/KerbalMissile/Kodo/releases/latest" target="_blank">
+      <a class="btn btn-primary" href="https://github.com/Kodo-IDE/Kodo/releases/latest" target="_blank">
         Download
       </a>
-      <a class="btn btn-secondary" href="https://github.com/KerbalMissile/Kodo" target="_blank">
+      <a class="btn btn-secondary" href="https://github.com/Kodo-IDE/Kodo" target="_blank">
         View on GitHub
       </a>
     </div>
@@ -640,7 +640,7 @@
         <p class="section-label">Extensions</p>
         <h2>Language support and themes that fit your stack</h2>
         <p>Kodo loads syntax highlighting and theme packs through `.kox` extensions, with marketplace browsing built right into the app. Open a file, install what you need, and let Kodo match the right highlighting automatically.</p>
-        <a class="btn btn-secondary" href="https://github.com/KerbalMissile/Kodo/tree/main/Official_Extensions" target="_blank">Browse official extensions</a>
+        <a class="btn btn-secondary" href="https://github.com/Kodo-IDE/Kodo-Extensions/tree/main/Indexs" target="_blank">Browse official extensions</a>
       </div>
       <div class="code-block">
 <span class="c-com">// manifest.json inside a .kox file</span>
@@ -694,14 +694,14 @@
   <!-- FOOTER -->
   <footer>
     <div class="footer-left">
-      <img src="https://raw.githubusercontent.com/KerbalMissile/Kodo/main/kodo_logo.png" alt="" />
+      <img src="https://raw.githubusercontent.com/Kodo-IDE/Kodo/main/kodo_logo.png" alt="" />
       Kodo by KerbalMissile &amp; SS-YYC
     </div>
     <ul class="footer-links">
-      <li><a href="https://github.com/KerbalMissile/Kodo" target="_blank">GitHub</a></li>
-      <li><a href="https://github.com/KerbalMissile/Kodo/releases" target="_blank">Releases</a></li>
-      <li><a href="https://github.com/KerbalMissile/Kodo/blob/main/LICENSE.md" target="_blank">License</a></li>
-      <li><a href="https://github.com/KerbalMissile/Kodo/issues" target="_blank">Issues</a></li>
+      <li><a href="https://github.com/Kodo-IDE/Kodo" target="_blank">GitHub</a></li>
+      <li><a href="https://github.com/Kodo-IDE/Kodo/releases" target="_blank">Releases</a></li>
+      <li><a href="https://github.com/Kodo-IDE/Kodo/blob/main/LICENSE.md" target="_blank">License</a></li>
+      <li><a href="https://github.com/Kodo-IDE/Kodo/issues" target="_blank">Issues</a></li>
       <a href="https://shipboost.io" data-shipboost-badge="free-launch" target="_blank" rel="noopener">
   <img src="https://shipboost.io/ShipBoost-Badge/ShipBoost-Dark-Badge.svg" alt="Launching soon on ShipBoost" style="height: 54px; width: auto;" />
 </a>
@@ -709,7 +709,7 @@
   </footer>
 
   <script>
-    fetch('https://api.github.com/repos/KerbalMissile/Kodo/releases')
+    fetch('https://api.github.com/repos/Kodo-IDE/Kodo/releases')
       .then(r => r.json())
       .then(data => {
         const badge = document.getElementById('version-badge');
@@ -721,14 +721,14 @@
         } else {
           badge.textContent = 'pre-release';
           badge.style.cursor = 'pointer';
-          badge.onclick = () => window.open('https://github.com/KerbalMissile/Kodo/releases', '_blank');
+          badge.onclick = () => window.open('https://github.com/Kodo-IDE/Kodo/releases', '_blank');
         }
       })
       .catch(() => {
         const badge = document.getElementById('version-badge');
         badge.textContent = 'pre-release';
         badge.style.cursor = 'pointer';
-        badge.onclick = () => window.open('https://github.com/KerbalMissile/Kodo/releases', '_blank');
+        badge.onclick = () => window.open('https://github.com/Kodo-IDE/Kodo/releases', '_blank');
       });
 
     // Carousel
