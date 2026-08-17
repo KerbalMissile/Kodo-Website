@@ -74,6 +74,7 @@
     .btn:hover { border-color:#555; background:var(--bg3); }
     .btn-primary { background:var(--accent); border-color:var(--accent); color:#fff; }
     .btn-primary:hover { background:var(--accent2); border-color:var(--accent2); }
+    .btn.disabled { opacity:.6; }
     .divider { max-width:856px; margin:0 auto; border:0; border-top:1px solid var(--border); }
 
     .section, .screenshots-section, .install-strip { padding-top:64px; padding-bottom:64px; }
@@ -166,7 +167,7 @@
     <h1 class="fade-in">Code fast.<br>Stay <span>light.</span></h1>
     <p class="fade-in">Kodo is a fast, lightweight code editor built by KerbalMissile and SS-YYC. Open a file or folder, install language support and themes from the marketplace, and keep moving with tabs, autosave, code prediction, and a built-in terminal.</p>
     <div class="hero-buttons">
-      <a class="btn btn-primary" href="https://github.com/Kodo-IDE/Kodo/releases/latest" target="_blank">
+      <a class="btn btn-primary" id="download-btn" href="#" onclick="return false;">
         Download
       </a>
       <a class="btn btn-secondary" href="https://github.com/Kodo-IDE/Kodo" target="_blank">
@@ -344,6 +345,27 @@
   </footer>
 
   <script>
+    function pickInstaller(release) {
+      const assets = (release && release.assets) || [];
+      return assets.find(a => /-Installer\.exe$/i.test(a.name))
+          || assets.find(a => /\.exe$/i.test(a.name))
+          || assets[0];
+    }
+
+    function attachDownload(release) {
+      const btn = document.getElementById('download-btn');
+      const asset = pickInstaller(release);
+      if (asset && asset.browser_download_url) {
+        btn.href = asset.browser_download_url;
+        btn.removeAttribute('target');
+        btn.removeAttribute('onclick');
+      } else {
+        btn.title = 'No installer available yet';
+        btn.classList.add('disabled');
+        btn.onclick = () => window.open('https://github.com/Kodo-IDE/Kodo/releases', '_blank');
+      }
+    }
+
     fetch('https://api.github.com/repos/Kodo-IDE/Kodo/releases')
       .then(r => r.json())
       .then(data => {
@@ -353,10 +375,12 @@
           badge.textContent = release.tag_name;
           badge.style.cursor = 'pointer';
           badge.onclick = () => window.open(release.html_url, '_blank');
+          attachDownload(release);
         } else {
           badge.textContent = 'pre-release';
           badge.style.cursor = 'pointer';
           badge.onclick = () => window.open('https://github.com/Kodo-IDE/Kodo/releases', '_blank');
+          attachDownload(null);
         }
       })
       .catch(() => {
@@ -364,6 +388,7 @@
         badge.textContent = 'pre-release';
         badge.style.cursor = 'pointer';
         badge.onclick = () => window.open('https://github.com/Kodo-IDE/Kodo/releases', '_blank');
+        attachDownload(null);
       });
 
     // Carousel
