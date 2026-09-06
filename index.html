@@ -1024,13 +1024,13 @@
       <div class="carousel-track-outer">
         <div class="carousel-track" id="carouselTrack">
           <div class="carousel-slide">
-            <img src="assets/screenshots/home.png" />
+            <img src="assets/screenshots/home.png" alt="Kodo Welcome Screen" draggable="false" />
           </div>
           <div class="carousel-slide">
-            <img src="assets/screenshots/extensions.png" alt="Kodo Editor with Terminal" draggable="false" />
+            <img src="assets/screenshots/editor.png" alt="Kodo Editor with Terminal" draggable="false" />
           </div>
           <div class="carousel-slide">
-            <img src="assets/screenshots/editor.png" alt="Kodo Extensions Marketplace" draggable="false" />
+            <img src="assets/screenshots/extensions.png" alt="Kodo Extensions Marketplace" draggable="false" />
           </div>
         </div>
       </div>
@@ -1041,7 +1041,7 @@
           <div class="carousel-dot" data-idx="1"></div>
           <div class="carousel-dot" data-idx="2"></div>
         </div>
-        <span class="carousel-caption" id="carouselCaption">Extensions Marketplace</span>
+        <span class="carousel-caption" id="carouselCaption">Welcome Screen</span>
         <button class="carousel-btn" id="carouselNext" aria-label="Next">&#8594;</button>
       </div>
     </div>
@@ -1217,7 +1217,7 @@
       // Auto-advance
       let timer = setInterval(() => goTo(current + 1), 4000);
       outer.addEventListener('mouseenter', () => clearInterval(timer));
-      outer.addEventListener('mouseleave', () => { timer = setInterval(() => goTo(current + 1), 4000); });
+      outer.addEventListener('mouseleave', () => { clearInterval(timer); timer = setInterval(() => goTo(current + 1), 4000); });
     })();
 
   </script>
