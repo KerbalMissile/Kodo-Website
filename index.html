@@ -866,6 +866,31 @@
     opacity: .4;
   }
 
+  .badge-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+
+    padding: 0 32px 28px;
+  }
+
+  .badge-link {
+    display: flex;
+    opacity: .85;
+    transition: opacity .15s ease;
+  }
+
+  .badge-link:hover {
+    opacity: 1;
+  }
+
+  .badge-strip img {
+    height: 40px;
+    width: auto;
+  }
+
   /* ===== Responsive ===== */
 
   @media (max-width: 700px) {
@@ -1132,21 +1157,21 @@
       <li><a href="https://github.com/Kodo-IDE/Kodo/releases" target="_blank">Releases</a></li>
       <li><a href="https://github.com/Kodo-IDE/Kodo/blob/main/LICENSE" target="_blank">License</a></li>
       <li><a href="https://github.com/Kodo-IDE/Kodo/issues" target="_blank">Issues</a></li>
-      <a href="https://shipboost.io" data-shipboost-badge="free-launch" target="_blank" rel="noopener">
-  <img src="https://shipboost.io/ShipBoost-Badge/ShipBoost-Dark-Badge.svg" alt="Launching soon on ShipBoost" style="height: 54px; width: auto;" />
-</a>
-<a href="https://peerpush.com/p/kodo"
-  target="_blank"
-  rel="noopener"
->
-  <img
-    src="https://peerpush.com/p/kodo/badge.png"
-    alt="Kodo on PeerPush"
-    style="width: 230px;"
-  />
-</a>
     </ul>
   </footer>
+
+  <!-- LAUNCH BADGES -->
+  <div class="badge-strip">
+    <a class="badge-link" href="https://shipboost.io" data-shipboost-badge="free-launch" target="_blank" rel="noopener">
+      <img src="https://shipboost.io/ShipBoost-Badge/ShipBoost-Dark-Badge.svg" alt="Launching soon on ShipBoost" />
+    </a>
+    <a class="badge-link" href="https://peerpush.com/p/kodo" target="_blank" rel="noopener">
+      <img src="https://peerpush.com/p/kodo/badge.png" alt="Kodo on PeerPush" />
+    </a>
+    <a class="badge-link" href="https://www.producthunt.com/products/kodo-6?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-kodo-6" target="_blank" rel="noopener noreferrer">
+      <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1243229&amp;theme=dark" alt="Kodo - Lightweight, modular, FOSS code editor and IDE. | Product Hunt" />
+    </a>
+  </div>
 
   <script>
     function pickInstaller(release) {
